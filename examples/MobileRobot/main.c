@@ -143,7 +143,7 @@ int main(void)
 
   while(1)
   {
-    if(systimer_timeout_flag(sysTime,20) == SYSTIMER_TIMEOUT )
+    if(systimer_timeout_flag(sysTime,40) == SYSTIMER_TIMEOUT )
     {
       sysTime = systimer_get();
       switch (currentData){
@@ -171,6 +171,7 @@ int main(void)
     break;
 
     case 'a':
+      GPIOA->ODR &= ~(0xA0);
       GPIOA->ODR |= 0x20;
       GPIOA->ODR |= 0x80;
       TIM1->CCR1 = 1500;
@@ -316,6 +317,8 @@ int main(void)
       TIM4->CCR3 = motor3Inital;
       TIM4->CCR2 = motor4Inital;
       TIM4->CCR4 = motor5Inital;
+      TIM1->CCR3 = motor6Inital;
+      TIM3->CCR1 = motor7Inital; 
        
       break;
     } 
