@@ -7,12 +7,12 @@
 int main(void)
 {
 
-  RCC->APB2ENR |= RCC_APB2ENR_IOPAEN; // enable clock for port GPIOC
-  GPIOA->CRH &= ~(0x00f00000); // clean default value (0x44444444)
+  RCC->APB2ENR |= RCC_APB2ENR_IOPAEN; // enable clock for port GPIOA
+  GPIOA->CRH &= ~(0x44444444); // clean default value (0x44444444)
   GPIOA->CRH |= 0x0000BBBB;
 
   GPIOA->CRL &= ~(0x44444444); // clean default value (0x44444444) FFFFFF
-  GPIOA->CRL |= 0x30300000;
+  GPIOA->CRL |= 0x3B300000; //0xCBC00000
 
 
   RCC->APB2ENR |= RCC_APB2ENR_TIM1EN;
@@ -118,7 +118,7 @@ int main(void)
   int motor3Inital = 40; 
   int motor4Inital = 150;
   int motor5Inital = 60;
-  int motor6Inital = 150;
+  int motor6Inital = 154;
   int motor7Inital = 150;
 
   TIM4->CCR1 = motor1Inital; //MOTOR1
@@ -150,23 +150,23 @@ int main(void)
     case 'w':
       GPIOA->ODR &= ~(0xA0);
       GPIOA->ODR |= 0x20;
-      TIM1->CCR1 = 1500;
-      TIM1->CCR4 = 1500;
+      TIM1->CCR1 = 1000;
+      TIM1->CCR4 = 1000;
       //print("↑ Forward ↑\n");
     break;
 
     case 's':
       GPIOA->ODR &= ~(0xA0);
       GPIOA->ODR |= 0x80;
-      TIM1->CCR1 = 1500;
-      TIM1->CCR4 = 1500;
+      TIM1->CCR1 = 1000;
+      TIM1->CCR4 = 1000;
       //print("↓ Backward ↓\n");
     break;
 
     case 'd':
       GPIOA->ODR &= ~(0xA0);
-      TIM1->CCR1 = 1500;
-      TIM1->CCR4 = 1500;
+      TIM1->CCR1 = 1000;
+      TIM1->CCR4 = 1000;
       //print("→ Right →\n");
     break;
 
@@ -174,8 +174,8 @@ int main(void)
       GPIOA->ODR &= ~(0xA0);
       GPIOA->ODR |= 0x20;
       GPIOA->ODR |= 0x80;
-      TIM1->CCR1 = 1500;
-      TIM1->CCR4 = 1500;
+      TIM1->CCR1 = 1000;
+      TIM1->CCR4 = 1000;
       //print("← Left ←\n");
     break;
 
