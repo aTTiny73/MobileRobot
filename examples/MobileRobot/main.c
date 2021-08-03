@@ -134,6 +134,7 @@ int main(void)
 
 
   currentData = '1';
+  char prevState = '1';
 
   systimer_init(); 
   uint32_t sysTime = systimer_get(); 
@@ -141,6 +142,7 @@ int main(void)
   print_init(usart2_tx_byte);
   GPIOA->ODR &= ~(0xA0);
 
+  ;
   while(1)
   {
     if(systimer_timeout_flag(sysTime,40) == SYSTIMER_TIMEOUT )
@@ -148,35 +150,48 @@ int main(void)
       sysTime = systimer_get();
       switch (currentData){
     case 'w':
-      GPIOA->ODR &= ~(0xA0);
-      GPIOA->ODR |= 0x20;
+      if (prevState!=currentData){
+        GPIOA->ODR &= ~(0xA0);
+        GPIOA->ODR |= 0x20;
+      }
       TIM1->CCR1 = 1000;
       TIM1->CCR4 = 1000;
-      //print("↑ Forward ↑\n");
+      prevState = currentData;
+      //print("F\n");
     break;
 
     case 's':
-      GPIOA->ODR &= ~(0xA0);
-      GPIOA->ODR |= 0x80;
+      if (prevState!=currentData){
+        GPIOA->ODR &= ~(0xA0);
+        GPIOA->ODR |= 0x80;
+      }
       TIM1->CCR1 = 1000;
       TIM1->CCR4 = 1000;
-      //print("↓ Backward ↓\n");
+      prevState = currentData;
+      //print("B\n");
     break;
 
     case 'd':
-      GPIOA->ODR &= ~(0xA0);
+      if (prevState!=currentData){
+        GPIOA->ODR &= ~(0xA0);
+      }
       TIM1->CCR1 = 1000;
       TIM1->CCR4 = 1000;
-      //print("→ Right →\n");
+      prevState = currentData;
+      //print("R\n");
     break;
 
     case 'a':
-      GPIOA->ODR &= ~(0xA0);
-      GPIOA->ODR |= 0x20;
-      GPIOA->ODR |= 0x80;
+      if (prevState!=currentData){
+        GPIOA->ODR &= ~(0xA0);
+        GPIOA->ODR |= 0xA0;
+        //GPIOA->ODR |= 0x20;
+        //GPIOA->ODR |= 0x80;
+      }
       TIM1->CCR1 = 1000;
       TIM1->CCR4 = 1000;
-      //print("← Left ←\n");
+      prevState = currentData;
+      //print("L\n");
     break;
 
     case 'r':
